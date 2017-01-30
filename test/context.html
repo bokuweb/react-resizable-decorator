@@ -5,50 +5,40 @@
      Reloaded before every execution run.
    -->
 <html>
-  <head>
-    <title></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <base href="/"/>
-    <style>
+
+<head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <base href="/" />
+  <style>
        html, body, .main {
          height: 100%;
          padding: 0;
          margin: 0;
        }
-       .main {
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         font-size: 36px;
-         background:
-         radial-gradient(black 15%, transparent 16%) 0 0,
-         radial-gradient(black 15%, transparent 16%) 8px 8px,
-         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-         radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-         background-color:#282828;
-         background-size:16px 16px;
-       }
     </style>
-  </head>
-  <body>
-    <!-- The scripts need to be in the body DOM element, as some test running frameworks need the body
+</head>
+
+<body>
+  <!-- The scripts need to be in the body DOM element, as some test running frameworks need the body
          to have already been created so they can insert their magic into it. For example, if loaded
          before body, Angular Scenario test framework fails to find the body and crashes and burns in
          an epic manner. -->
-    <div class="main"></div>
-    <script src="context.js"></script>
-    <script type="text/javascript">
+  <div class="main"></div>
+  <script src="context.js"></script>
+  <script type="text/javascript">
       // Configure our Karma and set up bindings
-      %CLIENT_CONFIG%
-      window.__karma__.setupContext(window);
+      %CLIENT_CONFIG %
+        window.__karma__.setupContext(window);
       // All served files with the latest timestamps
-      %MAPPINGS%
+      %MAPPINGS %
     </script>
-    <!-- Dynamically replaced with <script> tags -->
-      %SCRIPTS%
-    <script type="text/javascript">
-      window.__karma__.loaded();
+<!-- Dynamically replaced with <script> tags -->
+%SCRIPTS%
+<script type="text/javascript">
+        window.__karma__.loaded();
     </script>
-  </body>
+</body>
+
 </html>

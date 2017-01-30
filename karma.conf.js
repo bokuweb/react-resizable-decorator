@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     basePath: '',
     frameworks: ['mocha'],
@@ -12,7 +12,7 @@ module.exports = function(config) {
       'test/**/*.js': ['webpack']
     },
 
-    webpack: { //kind of a copy of your webpack config
+    webpack: {
       module: {
         loaders: [
           {
@@ -20,43 +20,45 @@ module.exports = function(config) {
             loader: 'babel',
             exclude: path.resolve(__dirname, 'node_modules'),
             query: {
-              presets: ['airbnb']
-            }
+              presets: [
+                'airbnb',
+                'react',
+                'es2015',
+                'stage-0',
+              ],
+              plugins: [
+                'babel-plugin-transform-flow-strip-types',
+                'transform-decorators-legacy',
+              ],
+            },
           },
           {
             test: /\.json$/,
             loader: 'json',
           },
-        ]
+        ],
       },
       externals: {
         'react/lib/ExecutionEnvironment': true,
         'react/lib/ReactContext': true,
         'react/addons': true,
-      }
+      },
     },
 
     webpackServer: {
-      noInfo: true //please don't spam the console when running in karma!
+      noInfo: true,  // please don't spam the console when running in karma!
     },
 
     plugins: [
       'karma-webpack',
       'karma-mocha',
-      'karma-nightmare'
+      'karma-nightmare',
     ],
-
-
-    babelPreprocessor: {
-      options: {
-        presets: ['airbnb']
-      }
-    },
 
     nightmareOptions: {
       width: 800,
       height: 560,
-      show: true,
+      show: false,
     },
 
     customContextFile: 'test/context.html',
@@ -67,5 +69,5 @@ module.exports = function(config) {
     autoWatch: true,
     browsers: ['Nightmare'],
     singleRun: true,
-  })
+  });
 };
