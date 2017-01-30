@@ -52,15 +52,15 @@ interface HandlersClassName {
 interface Props {
   grid: Array<number>;
   bounds: ?'parent' | 'window';
-  minWidth: ?number;
-  minHeight: ?number;
-  maxWidth: ?number;
-  maxHeight: ?number;
-  lockAspectRatio: ?boolean;
-  isResizable: ?IsResizable;
-  handlerStyles: ?HandlersStyles;
-  handlerClasses: ?HandlersClassName;
-  children: ?any;
+minWidth: ?number;
+minHeight: ?number;
+maxWidth: ?number;
+maxHeight: ?number;
+lockAspectRatio: ?boolean;
+isResizable: ?IsResizable;
+handlerStyles: ?HandlersStyles;
+handlerClasses: ?HandlersClassName;
+children: ?any;
 }
 
 interface Size {
@@ -257,7 +257,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
               onResizeStart={this.__onResizeStart}
               style={handlerStyles && handlerStyles[dir]}
               className={handlerClasses && handlerClasses[dir]}
-            />
+              />
           );
         }
         return null;
