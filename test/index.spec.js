@@ -16,20 +16,6 @@ export const mouseMove = (node, x, y) => {
 };
 
 describe('resizable decorator', () => {
-  describe('smoke mount', () => {
-    it('should render decorated component by resizable without crash', () => {
-      @resizable
-      class Wrapped extends Component {
-        render() {
-          return <div>Hello</div>;
-        }
-      }
-      mount(
-        <Wrapped />,
-        { attachTo: document.querySelector('.main') },
-      );
-    });
-  });
 
   describe('position', () => {
     it('should set position `relative` when wrapped component position equals static', () => {
@@ -58,6 +44,38 @@ describe('resizable decorator', () => {
         { attachTo: document.querySelector('.main') },
       );
       assert.equal(getComputedStyle(wrapper.instance().__resizable).position, 'absolute');
+    });
+  });
+
+  describe('resizers', () => {
+    it('should render all resize handler when default props', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return <div>Hello</div>;
+        }
+      }
+      const wrapper = shallow(
+        <Wrapped />,
+        { attachTo: document.querySelector('.main') },
+      );
+      assert.equal(wrapper.find('ResizeHandler').length, 8);
+    });
+
+    it('should not render top resize handler when enable only top resizer', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div>Hello</div>
+          );
+        }
+      }
+      const wrapper = shallow(
+        <Wrapped isResizable={{ top: true }} />,
+        { attachTo: document.querySelector('.main') },
+      );
+      assert.equal(wrapper.find('ResizeHandler').length, 1);
     });
   });
 });
