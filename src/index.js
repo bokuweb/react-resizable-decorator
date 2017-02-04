@@ -12,6 +12,8 @@ import ResizeHandler from './resize-handler';
 
 import type { Direction } from './resize-handler';
 
+export const resize = Symbol('resize');
+
 const clamp = (n: number, min: number, max: number): number => Math.max(Math.min(n, max), min);
 
 const snap = (n: number, size: number): number => Math.round(n / size) * size;
@@ -55,6 +57,8 @@ interface HandlersClassName {
 interface Props {
   grid: Array<number>;
   bounds: ?'parent' | 'window';
+width: ?(number | string);
+height: ?(number | string);
 minWidth: ?number;
 minHeight: ?number;
 maxWidth: ?number;
@@ -81,8 +85,8 @@ interface Original extends Size {
 
 interface State {
   __isResizing: boolean;
-  __width: string;
-  __height: string;
+  __width: string | number;
+  __height: string | number;
   __original: Original;
   __direction: Direction;
 }
@@ -99,6 +103,8 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
     __onResizeStop: (e: SyntheticMouseEvent | SyntheticTouchEvent) => void;
 
     static defaultProps = {
+      width: 'auto',
+      height: 'auto',
       grid: [1, 1],
       isResizable: {
         top: true,
@@ -121,8 +127,8 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
       super(props);
       this.state = {
         __isResizing: false,
-        __width: 'auto',
-        __height: 'auto',
+        __width: props.width ? props.width : 'auto',
+        __height: props.height ? props.height : 'auto',
         __direction: 'right',
         __original: {
           x: 0,
@@ -184,6 +190,8 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
         clientX = event.nativeEvent.touches[0].clientX;
         clientY = event.nativeEvent.touches[0].clientY;
       }
+      console.log('size', this.__size)
+      console.log('e', event)
       this.setState({
         __original: {
           x: clientX,
@@ -202,17 +210,20 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
     __onResize(event: SyntheticMouseEvent) {
       if (!this.state.__isResizing) return;
       const { clientX, clientY } = event;
+      console.log(clientX, clientY)
       const { __direction, __original, __width, __height } = this.state;
       const { minWidth, minHeight, lockAspectRatio } = this.props;
       const ratio = __original.height / __original.width;
       let { maxWidth, maxHeight } = this.props;
       let newWidth = __original.width;
       let newHeight = __original.height;
+      console.log('neww', newWidth)
       if (/right/i.test(__direction)) newWidth = __original.width + clientX - __original.x;
       if (/left/i.test(__direction)) newWidth = __original.width - clientX + __original.x;
       if (/top/i.test(__direction)) newHeight = __original.height - clientY + __original.y;
       if (/bottom/i.test(__direction)) newHeight = __original.height + clientY - __original.y;
-
+      console.log(newWidth)
+      console.log(__original.width)
       if (this.props.bounds === 'parent') {
         const parent = this.__resizable.parentNode;
         const boundWidth = parent.offsetWidth + parent.offsetLeft - this.__resizable.offsetLeft;
@@ -239,6 +250,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
       newWidth = clampAndSnap(newWidth, minWidth || 0, maxWidth || Infinity, this.props.grid[0]);
       newHeight = clampAndSnap(newHeight, minHeight || 0, maxHeight || Infinity, this.props.grid[1]);
 
+      console.log(newWidth)
       this.setState({
         __width: __width !== 'auto' ? newWidth : 'auto',
         __height: __height !== 'auto' ? newHeight : 'auto',
@@ -284,6 +296,14 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
         }
         return null;
       }).filter(r => !!r);
+    }
+
+    // flow-disable-line
+    [resize](width: string | number, height: string | number) {
+      this.setState({
+        __width: width,
+        __height: height,
+      });
     }
 
     render() {

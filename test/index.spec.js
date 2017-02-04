@@ -8,7 +8,15 @@ import assert from 'assert';
 import { spy } from 'sinon';
 import resizable from '../src/index';
 
-export const mouseMove = (x, y) => {
+const mouseDown = (node, x, y) => {
+  const event = document.createEvent('MouseEvents');
+  event.initMouseEvent('mousedown', true, true, window,
+    0, 0, 0, x, y, false, false, false, false, 0, null);
+  node.dispatchEvent(event);
+  return event;
+};
+
+const mouseMove = (x, y) => {
   const event = document.createEvent('MouseEvents');
   event.initMouseEvent('mousemove', true, true, window,
     0, 0, 0, x, y, false, false, false, false, 0, null);
@@ -174,6 +182,7 @@ describe('resizable decorator', () => {
       handler.simulate('mousedown');
       mouseMove(0, 0);
       assert.equal(onResize.callCount, 1);
+      assert.deepEqual(onResize.args[0][0].type, 'mousemove');
       assert.deepEqual(onResize.args[0][1], 'bottomRight');
       assert.deepEqual(onResize.args[0][2].id, 'resizable');
     });
@@ -197,12 +206,44 @@ describe('resizable decorator', () => {
       );
       const handler = wrapper.find('ResizeHandler');
       assert(handler);
-      handler.simulate('mousedown');
+      mouseDown(handler.getDOMNode(), 100, 100);
       mouseMove(0, 0);
       mouseUp(0, 0);
       assert.equal(onResizeStop.callCount, 1);
+      assert.deepEqual(onResizeStop.args[0][0].type, 'mouseup');
       assert.deepEqual(onResizeStop.args[0][1], 'bottomRight');
       assert.deepEqual(onResizeStop.args[0][2].id, 'resizable');
+    });
+  });
+
+  describe('integration', () => {
+    it('should resize 100 * 100 to 200 * 200', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="100px"
+          height="100px"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 100, 100);
+      mouseMove(200, 200);
+      mouseUp(200, 200);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '200px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '200px');
     });
   });
 });

@@ -62,6 +62,7 @@ module.exports = (config) => {
     },
 
     customContextFile: 'test/context.html',
+    customDebugFile: 'test/debug.html',
 
     reporters: ['progress'],
     port: 9876,
