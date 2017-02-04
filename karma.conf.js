@@ -57,7 +57,7 @@ module.exports = (config) => {
 
     nightmareOptions: {
       width: 800,
-      height: 560,
+      height: 600,
       show: false,
     },
 

@@ -57,20 +57,20 @@ interface HandlersClassName {
 interface Props {
   grid: Array<number>;
   bounds: ?'parent' | 'window';
-width: ?(number | string);
-height: ?(number | string);
-minWidth: ?number;
-minHeight: ?number;
-maxWidth: ?number;
-maxHeight: ?number;
-lockAspectRatio: ?boolean;
-isResizable: ?IsResizable;
-handlerStyles: ?HandlersStyles;
-handlerClasses: ?HandlersClassName;
-children: ?any;
-onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
-onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
-onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+  width: ?(number | string);
+  height: ?(number | string);
+  minWidth: ?number;
+  minHeight: ?number;
+  maxWidth: ?number;
+  maxHeight: ?number;
+  lockAspectRatio: ?boolean;
+  isResizable: ?IsResizable;
+  handlerStyles: ?HandlersStyles;
+  handlerClasses: ?HandlersClassName;
+  children: ?any;
+  onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+  onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+  onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
 }
 
 interface Size {
@@ -93,7 +93,7 @@ interface State {
 
 
 export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{}> {
-  return class Enhancer extends WrappedComponent {
+  class Enhancer extends WrappedComponent {
 
     props: Props;
     state: State;
@@ -318,5 +318,8 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
         [this.props.children, this.__renderResizers()],
       );
     }
-  };
+  }
+
+  Object.defineProperty(Enhancer, 'name', { value: WrappedComponent.name, configurable: true });
+  return Enhancer;
 }

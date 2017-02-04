@@ -5,6 +5,8 @@
 [![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/react-resizable-decorator/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/react-resizable-decorator)
 [![License](https://img.shields.io/npm/l/react-resizable-decorator.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-decorator#license)
 
+## License
+
 The MIT License (MIT)
 
 Copyright (c) 2017 Bokuweb

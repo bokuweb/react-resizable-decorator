@@ -245,5 +245,402 @@ describe('resizable decorator', () => {
       assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '200px');
       assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '200px');
     });
+
+    it('should resize 200 * 200 to 100 * 100', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200px"
+          height="200px"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(100, 100);
+      mouseUp(100, 100);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '100px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '100px');
+    });
+
+    it('should minWidth set when trying to make it smaller than the minWidth', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          minWidth="80"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(40, 100);
+      mouseUp(40, 100);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '80px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '100px');
+    });
+
+    it('should minHeight set when trying to make it smaller than the minHeight', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          minHeight="80"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(100, 40);
+      mouseUp(100, 40);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '100px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '80px');
+    });
+
+    it('should maxWidth set when trying to make it larger than the maxWidth', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          maxWidth="300"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(400, 400);
+      mouseUp(400, 400);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '300px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '400px');
+    });
+
+    it('should maxHeight set when trying to make it larger than the maxWidth', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          maxHeight="300"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(400, 400);
+      mouseUp(400, 400);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '400px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '300px');
+    });
+
+    it('should snapped ro grid when set x axis grid and not reached grid value', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          grid={[20, 1]}
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(190, 400);
+      mouseUp(190, 400);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '200px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '400px');
+      mouseDown(handler.getDOMNode(), 190, 400);
+      mouseMove(205, 400);
+      mouseUp(205, 400);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '220px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '400px');
+    });
+
+    it('should snapped ro grid when set y axis grid and not reached grid value', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          grid={[1, 20]}
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(400, 190);
+      mouseUp(400, 190);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '400px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '200px');
+      mouseDown(handler.getDOMNode(), 400, 190);
+      mouseMove(400, 205);
+      mouseUp(400, 205);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '400px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '220px');
+    });
+
+    it('should keep aspect ratio when set lockAspectRatio props and resize x axis', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          lockAspectRatio
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(400, 200);
+      mouseUp(400, 200);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '400px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '400px');
+    });
+
+    it('should keep aspect ratio when set lockAspectRatio props and resize y axis', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          lockAspectRatio
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(200, 300);
+      mouseUp(200, 300);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '300px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '300px');
+    });
+
+    it('should snapped to  parent size when set bounds equals parent and resize', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          bounds="parent"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(400, 400);
+      mouseUp(400, 400);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '300px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '300px');
+    });
+
+    it('should resize window size when bounds not equals parent', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(800, 600);
+      mouseUp(800, 600);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '800px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '600px');
+    });
+
+    it('should be able to resize larger than window sizem when bounds is not set', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(1000, 800);
+      mouseUp(1000, 800);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '1000px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '800px');
+    });
+
+    it('should snapped to window size when set bounds equals window and resize', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          bounds="window"
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      mouseDown(handler.getDOMNode(), 200, 200);
+      mouseMove(1000, 800);
+      mouseUp(1000, 800);
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '800px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '538px');
+    });    
   });
 });
