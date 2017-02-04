@@ -55,16 +55,18 @@ interface HandlersClassName {
 interface Props {
   grid: Array<number>;
   bounds: ?'parent' | 'window';
-  minWidth: ?number;
-  minHeight: ?number;
-  maxWidth: ?number;
-  maxHeight: ?number;
-  lockAspectRatio: ?boolean;
-  isResizable: ?IsResizable;
-  handlerStyles: ?HandlersStyles;
-  handlerClasses: ?HandlersClassName;
-  children: ?any;
-  onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+minWidth: ?number;
+minHeight: ?number;
+maxWidth: ?number;
+maxHeight: ?number;
+lockAspectRatio: ?boolean;
+isResizable: ?IsResizable;
+handlerStyles: ?HandlersStyles;
+handlerClasses: ?HandlersClassName;
+children: ?any;
+onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
 }
 
 interface Size {
@@ -110,7 +112,9 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
       },
       handlerStyles: {},
       handlerClasses: {},
-      onResizeStart: () => {},
+      onResizeStart: () => { },
+      onResize: () => { },
+      onResizeStop: () => { },
     }
 
     constructor(props: Props) {
@@ -190,7 +194,9 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
         __isResizing: true,
         __direction: direction,
       });
-      if (this.props.onResizeStart) this.props.onResizeStart(event, direction, this.__resizable);
+      if (this.props.onResizeStart) {
+        this.props.onResizeStart(event, direction, this.__resizable);
+      }
     }
 
     __onResize(event: SyntheticMouseEvent) {
@@ -237,14 +243,18 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
         __width: __width !== 'auto' ? newWidth : 'auto',
         __height: __height !== 'auto' ? newHeight : 'auto',
       });
+      if (this.props.onResize) {
+        this.props.onResize(event, __direction, this.__resizable);
+      }
     }
 
     __onResizeStop(event: SyntheticMouseEvent) {
-      // TODO: add callbacks
-      console.log(event);
       this.setState({
         __isResizing: false,
       });
+      if (this.props.onResizeStop) {
+        this.props.onResizeStop(event, this.state.__direction, this.__resizable);
+      }
     }
 
     get __size(): Size {

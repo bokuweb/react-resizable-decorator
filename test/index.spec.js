@@ -8,9 +8,17 @@ import assert from 'assert';
 import { spy } from 'sinon';
 import resizable from '../src/index';
 
-export const mouseMove = (node, x, y) => {
+export const mouseMove = (x, y) => {
   const event = document.createEvent('MouseEvents');
   event.initMouseEvent('mousemove', true, true, window,
+    0, 0, 0, x, y, false, false, false, false, 0, null);
+  document.dispatchEvent(event);
+  return event;
+};
+
+const mouseUp = (x, y) => {
+  const event = document.createEvent('MouseEvents');
+  event.initMouseEvent('mouseup', true, true, window,
     0, 0, 0, x, y, false, false, false, false, 0, null);
   document.dispatchEvent(event);
   return event;
@@ -119,7 +127,7 @@ describe('resizable decorator', () => {
   });
 
   describe('callback', () => {
-    it('should call onResizeStart when resize handler clicked', () => {
+    it('should call onResizeStart when resize handler dragged', () => {
       @resizable
       class Wrapped extends Component {
         render() {
@@ -142,6 +150,59 @@ describe('resizable decorator', () => {
       assert.equal(onResizeStart.callCount, 1);
       assert.deepEqual(onResizeStart.args[0][1], 'bottomRight');
       assert.deepEqual(onResizeStart.args[0][2].id, 'resizable');
+    });
+
+    it('should call onResize when resize handler dragged and moved', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable">Hello</div>
+          );
+        }
+      }
+      const onResize = spy();
+      const wrapper = mount(
+        <Wrapped
+          onResize={onResize}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      assert(handler);
+      handler.simulate('mousedown');
+      mouseMove(0, 0);
+      assert.equal(onResize.callCount, 1);
+      assert.deepEqual(onResize.args[0][1], 'bottomRight');
+      assert.deepEqual(onResize.args[0][2].id, 'resizable');
+    });
+
+    it('should call onResizeStop when resize handler dragged and stopped', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable">Hello</div>
+          );
+        }
+      }
+      const onResizeStop = spy();
+      const wrapper = mount(
+        <Wrapped
+          onResizeStop={onResizeStop}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      assert(handler);
+      handler.simulate('mousedown');
+      mouseMove(0, 0);
+      mouseUp(0, 0);
+      assert.equal(onResizeStop.callCount, 1);
+      assert.deepEqual(onResizeStop.args[0][1], 'bottomRight');
+      assert.deepEqual(onResizeStop.args[0][2].id, 'resizable');
     });
   });
 });
