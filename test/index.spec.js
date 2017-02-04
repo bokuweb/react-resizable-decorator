@@ -640,7 +640,7 @@ describe('resizable decorator', () => {
       mouseMove(1000, 800);
       mouseUp(1000, 800);
       assert.equal(getComputedStyle(onResizeStop.args[0][2]).width, '800px');
-      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '538px');
+      assert.equal(getComputedStyle(onResizeStop.args[0][2]).height, '578px');
     });    
   });
 });
