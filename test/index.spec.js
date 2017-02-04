@@ -16,7 +16,6 @@ export const mouseMove = (node, x, y) => {
 };
 
 describe('resizable decorator', () => {
-
   describe('position', () => {
     it('should set position `relative` when wrapped component position equals static', () => {
       @resizable
@@ -75,7 +74,46 @@ describe('resizable decorator', () => {
         <Wrapped isResizable={{ top: true }} />,
         { attachTo: document.querySelector('.main') },
       );
-      assert.equal(wrapper.find('ResizeHandler').length, 1);
+      const handlers = wrapper.find('ResizeHandler');
+      assert.equal(handlers.length, 1);
+      assert.equal(handlers.node.props.direction, 'top');
+    });
+
+    it('should append className to resize handler when handlerClassName props set', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div>Hello</div>
+          );
+        }
+      }
+      const wrapper = shallow(
+        <Wrapped isResizable={{ top: true }} handlerClasses={{ top: 'topClassName' }} />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handlers = wrapper.find('ResizeHandler');
+      assert.equal(handlers.node.props.className, 'topClassName');
+    });
+
+    it('should append customStyle to resize handler when handlerStyle props set', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div>Hello</div>
+          );
+        }
+      }
+      const wrapper = shallow(
+        <Wrapped
+          isResizable={{ top: true }}
+          handlerStyles={{ top: { width: '5px', color: 'red' } }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handlers = wrapper.find('ResizeHandler');
+      assert.deepEqual(handlers.node.props.style, { width: '5px', color: 'red' });
     });
   });
 });
