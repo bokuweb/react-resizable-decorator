@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { mount, shallow } from 'enzyme';
 import assert from 'assert';
 import { spy } from 'sinon';
-import resizable from '../src/index';
+import resizable, { resize } from '../src/index';
 
 const mouseDown = (node, x, y) => {
   const event = document.createEvent('MouseEvents');
@@ -641,6 +641,30 @@ describe('resizable decorator', () => {
       mouseUp(1000, 800);
       assert(~~getComputedStyle(onResizeStop.args[0][2]).width.replace('px', '') <= 800);
       assert(~~getComputedStyle(onResizeStop.args[0][2]).height.replace('px', '') <= 600);
+    });
+
+    it('should resize when resize method called', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable" style={{ background: 'black' }}>
+              Hello
+            </div>
+          );
+        }
+      }
+      const wrapper = mount(
+        <Wrapped
+          width="200"
+          height="200"
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      wrapper.instance()[resize](100, 100);
+      assert.equal(getComputedStyle(wrapper.instance().__resizable).width, '100px');
+      assert.equal(getComputedStyle(wrapper.instance().__resizable).height, '100px');
     });
   });
 });
