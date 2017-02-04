@@ -3,11 +3,8 @@
   "parser": "babel-eslint",
   "plugins": [
     "flowtype",
-    "flow-vars"
   ],
   "rules": {
-    "flow-vars/define-flow-type": 1,
-    "flow-vars/use-flow-type": 1,
     "react/prop-types": 0,
     "flowtype/define-flow-type": 1,
     "flowtype/require-parameter-type": 1,

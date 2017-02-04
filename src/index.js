@@ -61,6 +61,7 @@ interface Props {
   handlerStyles: ?HandlersStyles;
   handlerClasses: ?HandlersClassName;
   children: ?any;
+  onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
 }
 
 interface Size {
@@ -100,6 +101,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
       },
       handlerStyles: {},
       handlerClasses: {},
+      onResizeStart: () => {},
     }
 
     constructor(props: Props) {
@@ -179,6 +181,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
         __isResizing: true,
         __direction: direction,
       });
+      if (this.props.onResizeStart) this.props.onResizeStart(event, direction, this.__resizable);
     }
 
     __onResize(event: SyntheticMouseEvent) {
@@ -257,7 +260,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
               onResizeStart={this.__onResizeStart}
               style={handlerStyles && handlerStyles[dir]}
               className={handlerClasses && handlerClasses[dir]}
-              />
+            />
           );
         }
         return null;

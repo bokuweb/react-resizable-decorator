@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import { mount, shallow } from 'enzyme';
 import assert from 'assert';
+import { spy } from 'sinon';
 import resizable from '../src/index';
 
 export const mouseMove = (node, x, y) => {
@@ -114,6 +115,33 @@ describe('resizable decorator', () => {
       );
       const handlers = wrapper.find('ResizeHandler');
       assert.deepEqual(handlers.node.props.style, { width: '5px', color: 'red' });
+    });
+  });
+
+  describe('callback', () => {
+    it('should call onResizeStart when resize handler clicked', () => {
+      @resizable
+      class Wrapped extends Component {
+        render() {
+          return (
+            <div id="resizable">Hello</div>
+          );
+        }
+      }
+      const onResizeStart = spy();
+      const wrapper = mount(
+        <Wrapped
+          onResizeStart={onResizeStart}
+          isResizable={{ bottomRight: true }}
+        />,
+        { attachTo: document.querySelector('.main') },
+      );
+      const handler = wrapper.find('ResizeHandler');
+      assert(handler);
+      handler.simulate('mousedown');
+      assert.equal(onResizeStart.callCount, 1);
+      assert.deepEqual(onResizeStart.args[0][1], 'bottomRight');
+      assert.deepEqual(onResizeStart.args[0][2].id, 'resizable');
     });
   });
 });

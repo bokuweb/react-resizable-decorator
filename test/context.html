@@ -7,21 +7,23 @@
 <html>
 
 <head>
-  <title></title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <base href="/" />
-  <style>
-       html, body, .main {
-         height: 100%;
-         padding: 0;
-         margin: 0;
-       }
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <base href="/" />
+    <style>
+        html,
+        body,
+        .main {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
     </style>
 </head>
 
 <body>
-  <!-- The scripts need to be in the body DOM element, as some test running frameworks need the body
+    <!-- The scripts need to be in the body DOM element, as some test running frameworks need the body
          to have already been created so they can insert their magic into it. For example, if loaded
          before body, Angular Scenario test framework fails to find the body and crashes and burns in
          an epic manner. -->
@@ -38,7 +40,6 @@
 %SCRIPTS%
 <script type="text/javascript">
         window.__karma__.loaded();
-    </script>
+</script>
 </body>
-
 </html>
