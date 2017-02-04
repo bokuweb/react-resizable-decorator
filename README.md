@@ -1,5 +1,10 @@
 # react-resizable-decorator
 
+[![Build Status](https://img.shields.io/travis/bokuweb/react-resizable-decorator.svg?style=flat-square)](https://travis-ci.org/bokuweb/react-resizable-decorator)
+[![Version](https://img.shields.io/npm/v/react-resizable-decorator.svg?style=flat-square)](https://www.npmjs.com/package/react-resizable-decorator)
+[![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/react-resizable-decorator/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/react-resizable-decorator)
+[![License](https://img.shields.io/npm/l/react-resizable-decorator.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-decorator#license)
+
 The MIT License (MIT)
 
 Copyright (c) 2017 Bokuweb
