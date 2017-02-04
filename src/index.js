@@ -190,8 +190,6 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
         clientX = event.nativeEvent.touches[0].clientX;
         clientY = event.nativeEvent.touches[0].clientY;
       }
-      console.log('size', this.__size)
-      console.log('e', event)
       this.setState({
         __original: {
           x: clientX,
@@ -210,20 +208,16 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
     __onResize(event: SyntheticMouseEvent) {
       if (!this.state.__isResizing) return;
       const { clientX, clientY } = event;
-      console.log(clientX, clientY)
       const { __direction, __original, __width, __height } = this.state;
       const { minWidth, minHeight, lockAspectRatio } = this.props;
       const ratio = __original.height / __original.width;
       let { maxWidth, maxHeight } = this.props;
       let newWidth = __original.width;
       let newHeight = __original.height;
-      console.log('neww', newWidth)
       if (/right/i.test(__direction)) newWidth = __original.width + clientX - __original.x;
       if (/left/i.test(__direction)) newWidth = __original.width - clientX + __original.x;
       if (/top/i.test(__direction)) newHeight = __original.height - clientY + __original.y;
       if (/bottom/i.test(__direction)) newHeight = __original.height + clientY - __original.y;
-      console.log(newWidth)
-      console.log(__original.width)
       if (this.props.bounds === 'parent') {
         const parent = this.__resizable.parentNode;
         const boundWidth = parent.offsetWidth + parent.offsetLeft - this.__resizable.offsetLeft;
@@ -250,7 +244,6 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
       newWidth = clampAndSnap(newWidth, minWidth || 0, maxWidth || Infinity, this.props.grid[0]);
       newHeight = clampAndSnap(newHeight, minHeight || 0, maxHeight || Infinity, this.props.grid[1]);
 
-      console.log(newWidth)
       this.setState({
         __width: __width !== 'auto' ? newWidth : 'auto',
         __height: __height !== 'auto' ? newHeight : 'auto',
