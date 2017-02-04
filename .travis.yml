@@ -16,5 +16,5 @@ install:
   - npm i
 
 script:
-  - npm t
+  - npm run test:ci
 
