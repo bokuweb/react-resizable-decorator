@@ -639,8 +639,8 @@ describe('resizable decorator', () => {
       mouseDown(handler.getDOMNode(), 200, 200);
       mouseMove(1000, 800);
       mouseUp(1000, 800);
-      assert(~~getComputedStyle(onResizeStop.args[0][2]).width.replace('px', '') =< 800);
-      assert(~~getComputedStyle(onResizeStop.args[0][2]).height.replace('px', '') =< 600);
+      assert(~~getComputedStyle(onResizeStop.args[0][2]).width.replace('px', '') <= 800);
+      assert(~~getComputedStyle(onResizeStop.args[0][2]).height.replace('px', '') <= 600);
     });
   });
 });

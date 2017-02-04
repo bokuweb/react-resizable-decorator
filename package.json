@@ -9,7 +9,8 @@
     "test:watch": "karma start --auto-watch --no-single-run",
     "test:ci": "npm run lint && npm run flow && npm t",
     "flow": "flow",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepush": "npm run test:ci"
   },
   "repository": {
     "type": "git",
