@@ -3,6 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 /* eslint-disable no-bitwise */
+/* eslint-disable no-mixed-operators */
 /* eslint-disable react/jsx-filename-extension */
 
 import React, { cloneElement } from 'react';

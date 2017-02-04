@@ -1,6 +1,7 @@
 /* @flow */
 
 /* eslint-disable max-len */
+/* eslint-disable react/jsx-filename-extension */
 
 import React, { PropTypes } from 'react';
 import styles from './styles';
