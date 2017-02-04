@@ -29,12 +29,17 @@ export default function ResizeHandler(props: HandlerProps): React$Element<*> {
   );
 }
 
+ResizeHandler.defaultProps = {
+  style: {},
+  className: '',
+};
+
 ResizeHandler.propTypes = {
-  onResizeStart: PropTypes.func,
+  onResizeStart: PropTypes.func.isRequired,
   direction: PropTypes.oneOf([
     'top', 'right', 'bottom', 'left',
     'topRight', 'bottomRight', 'bottomLeft', 'topLeft',
   ]).isRequired,
-  style: PropTypes.object,
+  style: PropTypes.any, // eslint-disable-line 
   className: PropTypes.string,
 };

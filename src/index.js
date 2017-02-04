@@ -2,6 +2,8 @@
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
+/* eslint-disable no-bitwise */
+/* eslint-disable react/jsx-filename-extension */
 
 import React, { cloneElement } from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
@@ -96,8 +98,14 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
     static defaultProps = {
       grid: [1, 1],
       isResizable: {
-        top: true, right: true, bottom: true, left: true,
-        topRight: true, bottomRight: true, bottomLeft: true, topLeft: true,
+        top: true,
+        right: true,
+        bottom: true,
+        left: true,
+        topRight: true,
+        bottomRight: true,
+        bottomLeft: true,
+        topLeft: true,
       },
       handlerStyles: {},
       handlerClasses: {},
@@ -232,7 +240,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
 
     __onResizeStop(event: SyntheticMouseEvent) {
       // TODO: add callbacks
-      console.log(event)
+      console.log(event);
       this.setState({
         __isResizing: false,
       });
@@ -264,7 +272,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
           );
         }
         return null;
-      }).filter((r) => !!r);
+      }).filter(r => !!r);
     }
 
     render() {
@@ -283,7 +291,7 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
       return cloneElement(
         element,
         props,
-        [this.props.children, this.__renderResizers()]
+        [this.props.children, this.__renderResizers()],
       );
     }
   };
