@@ -1,8 +1,8 @@
 {
   "name": "react-resizable-decorator",
-  "version": "0.1.0",
-  "description": "",
-  "main": "dist/index.js",
+  "version": "0.1.1",
+  "description": "react resizable decorator",
+  "main": "lib/index.js",
   "scripts": {
     "start": "node server.js",
     "compile": "babel -d lib/ src/",
@@ -12,18 +12,18 @@
     "flow": "flow",
     "lint": "eslint src",
     "prepush": "npm run test:ci",
-    "publish": "npm run compile && npm publish"
+    "pub": "npm run compile && npm publish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bokuweb/react-develop-boilerplate.git"
+    "url": "git+https://github.com/bokuweb/react-resizable-decorator.git"
   },
   "author": "bokuweb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bokuweb/react-develop-boilerplate/issues"
+    "url": "https://github.com/bokuweb/react-resizable-decorator/issues"
   },
-  "homepage": "https://github.com/bokuweb/react-develop-boilerplate#readme",
+  "homepage": "https://github.com/bokuweb/react-resizable-decorator#readme",
   "devDependencies": {
     "babel": "^6.3.26",
     "babel-cli": "^6.4.5",
