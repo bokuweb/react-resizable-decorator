@@ -1,7 +1,6 @@
 export default {
   base: {
     position: 'absolute',
-    background: '#333',
   },
   top: {
     width: '100%',
