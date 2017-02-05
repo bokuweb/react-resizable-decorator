@@ -14,6 +14,7 @@ class Resizable extends Component {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column',
         }}
       >
         {this.props.children}
@@ -30,6 +31,8 @@ export default class Example extends Component {
         height="160"
         minWidth="360"
         minHeight="160"
+        maxWidth="800"
+        maxHeight="600"        
         isResizable={{ bottomRight: true }}
         handlerStyles={{
           bottomRight: {
@@ -40,7 +43,10 @@ export default class Example extends Component {
           },
         }}
       >
-        <p>RESIZABLE  DECORATOR</p>
+        <div>RESIZABLE  DECORATOR</div>
+        <div style={{ fontSize: '11px', fontFamily: 'arial' }}>
+          min 360 * 160, max 800 * 600
+        </div>
       </Resizable>
     );
   }
