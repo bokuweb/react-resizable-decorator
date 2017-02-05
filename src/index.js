@@ -56,21 +56,21 @@ interface HandlersClassName {
 
 interface Props {
   grid: Array<number>;
-  bounds: ?'parent' | 'window';
-width: ?(number | string);
-height: ?(number | string);
-minWidth: ?number;
-minHeight: ?number;
-maxWidth: ?number;
-maxHeight: ?number;
-lockAspectRatio: ?boolean;
-isResizable: ?IsResizable;
-handlerStyles: ?HandlersStyles;
-handlerClasses: ?HandlersClassName;
-children: ?any;
-onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
-onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
-onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+  bounds: ?('parent' | 'window');
+  width: ?(number | string);
+  height: ?(number | string);
+  minWidth: ?number;
+  minHeight: ?number;
+  maxWidth: ?number;
+  maxHeight: ?number;
+  lockAspectRatio: ?boolean;
+  isResizable: ?IsResizable;
+  handlerStyles: ?HandlersStyles;
+  handlerClasses: ?HandlersClassName;
+  children: ?any;
+  onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+  onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+  onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
 }
 
 interface Size {
