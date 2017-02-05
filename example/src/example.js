@@ -2,20 +2,10 @@ import React, { Component } from 'react';
 import resizable from '../../src';
 
 @resizable
-class HelloWorld extends Component {
-
-  componentDidMount() {
-    console.log('aaaaaaaaaaa');
-  }
-
+class Hello extends Component {
   render() {
     return (
-      <h1
-        onClick={() => console.log('click')}
-        style={{ color: 'red', fontFamily: 'arial', marginLeft: '100px' }}
-      >
-        {this.props.children}
-      </h1>
+      <div style={{ background: 'black' }}>Hello</div>
     );
   }
 }
@@ -23,7 +13,7 @@ class HelloWorld extends Component {
 export default class Example extends Component {
   render() {
     return (
-      <HelloWorld bounds={"parent"}>Hello</HelloWorld>
+      <Hello width="100" height="100">Hello</Hello>
     );
   }
 }

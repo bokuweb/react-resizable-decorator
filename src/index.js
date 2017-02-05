@@ -57,20 +57,20 @@ interface HandlersClassName {
 interface Props {
   grid: Array<number>;
   bounds: ?'parent' | 'window';
-  width: ?(number | string);
-  height: ?(number | string);
-  minWidth: ?number;
-  minHeight: ?number;
-  maxWidth: ?number;
-  maxHeight: ?number;
-  lockAspectRatio: ?boolean;
-  isResizable: ?IsResizable;
-  handlerStyles: ?HandlersStyles;
-  handlerClasses: ?HandlersClassName;
-  children: ?any;
-  onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
-  onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
-  onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+width: ?(number | string);
+height: ?(number | string);
+minWidth: ?number;
+minHeight: ?number;
+maxWidth: ?number;
+maxHeight: ?number;
+lockAspectRatio: ?boolean;
+isResizable: ?IsResizable;
+handlerStyles: ?HandlersStyles;
+handlerClasses: ?HandlersClassName;
+children: ?any;
+onResizeStart: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+onResize: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
+onResizeStop: ?(event: SyntheticMouseEvent | SyntheticTouchEvent, direction: Direction, resizableRef: React$Component<*>) => void;
 }
 
 interface Size {
@@ -302,12 +302,21 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
     render() {
       const element = super.render();
       const userSelect = this.state.__isResizing ? userSelectNone : userSelectAuto;
+      // For new version React.
+      const width = typeof this.state.__width === 'string' && this.state.__width !== 'auto' && !/px/.test(this.state.__width) ||
+        typeof this.state.__width === 'number'
+        ? `${this.state.__width}px`
+        : this.state.__width;
+      const height = typeof this.state.__height === 'string' && this.state.__height !== 'auto' && !/px/.test(this.state.__height) ||
+        typeof this.state.__height === 'number'
+        ? `${this.state.__height}px`
+        : this.state.__height;
       const props = {
         ...element.props,
         style: {
           ...(element.props.style || {}),
-          width: this.state.__width,
-          height: this.state.__height,
+          width,
+          height,
           userSelect,
         },
         ref: (c: React$Component<*>) => { this.__resizable = c; },

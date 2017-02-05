@@ -5,6 +5,93 @@
 [![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/react-resizable-decorator/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/react-resizable-decorator)
 [![License](https://img.shields.io/npm/l/react-resizable-decorator.svg?style=flat-square)](https://github.com/bokuweb/react-resizable-decorator#license)
 
+## Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+- [Development](#development)
+- [Test](#test)
+- [Contribute](#contribute)
+- [Changelog](#changelog)
+- [License](#license)
+
+## Install
+
+``` sh
+$ npm install --save react-resizable-decorator
+```
+
+## Usage
+
+- If you can use `decorator`, (e.g. babel-plugin-transform-decorators-legacy).
+
+``` js
+import React, { Component } from 'react';
+import resizable from 'react-resizable-decorator';
+
+@resizable
+class Hello extends Component {
+  render() {
+    return (
+      <div>Hello</div>
+    );
+  }
+}
+
+export default class Example extends Component {
+  render() {
+    return (
+      <Hello width="100px" height="100px">Hello</Hello>
+    );
+  }
+}
+```
+
+- If you can not use `decorator`.
+
+``` js
+import React, { Component } from 'react';
+import resizable from 'react-resizable-decorator';
+
+const Hello = resizable(class Hello extends Component {
+  render() {
+    return (
+      <div>Hello</div>
+    );
+  }
+});
+
+export default class Example extends Component {
+  render() {
+    return (
+      <Hello width="100px" height="100px">Hello</Hello>
+    );
+  }
+}
+```
+
+## Development
+
+``` sh
+npm start && open http://localhost:
+```
+
+## Test
+
+``` sh
+$ npm run test:ci
+```
+
+## Contribute
+
+PR welcome.
+
+## Changelog
+
+#### v0.1.0
+
+- First release.
+
 ## License
 
 The MIT License (MIT)

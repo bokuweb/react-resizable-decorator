@@ -33,6 +33,22 @@ const mouseUp = (x, y) => {
 };
 
 describe('resizable decorator', () => {
+
+  describe('witout decrator', () => {
+    it('should mount resizable without error', () => {
+      const Wrapped = resizable(class Wrapped extends Component {
+        render() {
+          return <div>Hello</div>;
+        }
+      });
+      const wrapper = mount(
+        <Wrapped />,
+        { attachTo: document.querySelector('.main') },
+      );
+      assert.equal(wrapper.find('ResizeHandler').length, 8);
+    });
+  });
+
   describe('position', () => {
     it('should set position `relative` when wrapped component position equals static', () => {
       @resizable
