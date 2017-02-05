@@ -317,14 +317,14 @@ export default function resizable(WrappedComponent: ReactClass<*>): ReactClass<{
           ...(element.props.style || {}),
           width,
           height,
-          userSelect,
+          ...userSelect,
         },
         ref: (c: React$Component<*>) => { this.__resizable = c; },
       };
       return cloneElement(
         element,
         props,
-        [this.props.children, this.__renderResizers()],
+        [element.props.children, this.__renderResizers()],
       );
     }
   }
