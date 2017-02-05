@@ -88,31 +88,35 @@ The `height` property is used to set the initial height of a resizable component
 For example, you can set `300`, `'300px'`, `50%`.    
 If ommited, set `'auto'`.    
 
-#### `minWidth: number;`
+#### `minWidth: ?number;`
 
 The `minWidth` property is used to set the minimum width of a resizable component.
 
 
-#### `minHeight: number;`
+#### `minHeight: ?number;`
 
 The `minHeight` property is used to set the minimum height of a resizable component.
 
-#### `maxWidth: number;`
+#### `maxWidth: ?number;`
 
 The `maxWidth` property is used to set the maximum width of a resizable component.
 
-#### `maxHeight: number`;
+#### `maxHeight: ?number`;
 
 The `maxheight` property is used to set the maximum height of a resizable component.
 
-#### `grid: Array<number>;`
+#### `grid: ?Array<number>;`
 
 The `grid` property is used to specify the increments that resizing should snap to. Defaults to `[1, 1]`.
 
-#### `lockAspectRatio: boolean;`
+#### `lockAspectRatio: ?boolean;`
 
 The `lockAspectRatio` property is used to lock aspect ratio.
 If ommited, set `false`.
+
+#### `bounds: ?('window' | 'parent');`
+
+Specifies resize boundaries.
 
 #### `handlerStyles: ?HandlersStyles;`
 
